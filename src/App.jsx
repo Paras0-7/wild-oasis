@@ -1,5 +1,11 @@
+import { AppRoutes } from "./routes/route";
+
 function App() {
-  return <>Wild Oasis</>;
+  return (
+    <>
+      <AppRoutes />
+    </>
+  );
 }
 
 export default App;
