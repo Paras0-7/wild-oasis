@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledLogo = styled.div`
@@ -12,7 +13,9 @@ const Img = styled.img`
 export const Logo = function () {
   return (
     <StyledLogo>
-      <Img src="/logo-light.png" alt="Logo" />
+      <Link to="/dashboard">
+        <Img src="/logo-light.png" alt="Logo" />
+      </Link>
     </StyledLogo>
   );
 };
