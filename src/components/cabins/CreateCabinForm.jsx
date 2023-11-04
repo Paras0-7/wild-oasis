@@ -42,7 +42,7 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function CreateCabinForm() {
+export const CreateCabinForm = function () {
   return (
     <Form>
       <FormRow>
@@ -84,6 +84,4 @@ function CreateCabinForm() {
       </FormRow>
     </Form>
   );
-}
-
-export default CreateCabinForm;
+};
