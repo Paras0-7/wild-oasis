@@ -38,7 +38,7 @@ export const CabinTable = function () {
     queryKey: ["cabins"],
     queryFn: getCabins,
   });
-  s;
+
   if (isLoading) return <Spinner />;
   return (
     <Table role="table">
