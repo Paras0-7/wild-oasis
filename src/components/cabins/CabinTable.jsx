@@ -35,10 +35,10 @@ export const CabinTable = function () {
     data: cabins,
     error,
   } = useQuery({
-    queryKey: ["cabin"],
+    queryKey: ["cabins"],
     queryFn: getCabins,
   });
-
+  s;
   if (isLoading) return <Spinner />;
   return (
     <Table role="table">
