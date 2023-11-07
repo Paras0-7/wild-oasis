@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import { CreateCabinForm } from "./CreateCabinForm";
 import { useDeleteCabin } from "../../hooks/useDeleteCabin";
+import { HiPencil, HiTrash } from "react-icons/hi2";
 
 const TableRow = styled.div`
   display: grid;
@@ -62,9 +63,11 @@ export const CabinRow = function ({ cabin }) {
         <Price>{formatCurrency(regularPrice)}</Price>
         <Discount>{formatCurrency(discount)}</Discount>
         <div>
-          <button onClick={() => setShowForm(!showForm)}>Edit</button>
+          <button onClick={() => setShowForm(!showForm)}>
+            <HiPencil />
+          </button>
           <button onClick={() => mutate(cabinId)} disabled={isLoading}>
-            Delete
+            <HiTrash />
           </button>
         </div>
       </TableRow>
