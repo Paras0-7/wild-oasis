@@ -40,6 +40,5 @@ export const addCabin = async function (newCabin) {
 };
 
 export const editCabin = async function (cabin) {
-  console.log(cabin.id);
   const { data, error } = await supabase.from("cabins").update(cabin).eq("id", cabin.id).select();
 };

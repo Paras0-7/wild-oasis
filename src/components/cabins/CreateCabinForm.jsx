@@ -14,23 +14,13 @@ import { FormRow } from "../../ui/Form/FormRow";
 
 export const CreateCabinForm = function ({ cabinToEdit = {} }) {
   const { id: editId } = cabinToEdit;
+  console.log(cabinToEdit.maxCapacity);
   const editSession = Boolean(editId);
   const { register, handleSubmit, reset, getValues, formState } = useForm({
     defaultValues: editSession && cabinToEdit,
   });
   const { errors } = formState;
-  const queryClient = useQueryClient();
-  const { isLoading, mutate } = useMutation({
-    mutationFn: addCabin,
-    onSuccess: () => {
-      toast.success("New cabin added 🥳");
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      reset();
-    },
-    onError: (err) => toast.error(err.message),
-  });
+
   const { isLoading: isEditing, mutate: editCabinFn } = useMutation({
     mutationFn: editCabin,
     onSuccess: () => {
@@ -42,6 +32,8 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
     },
     onError: (err) => toast.error(err.message),
   });
+
+  const isDoing = isLoading || isEditing;
   const onSubmit = function (data) {
     // console.log(data);
     editSession ? editCabinFn(data) : mutate({ ...data, image: data.image[0] });
@@ -50,11 +42,13 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
   const onError = function (errors) {
     console.log(errors);
   };
+
+  console.log("Props changed");
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
       <FormRow label="Cabin Name" error={errors?.name?.message}>
         <Input
-          disabled={isLoading}
+          disabled={isDoing}
           type="text"
           id="name"
           {...register("name", {
@@ -65,7 +59,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
 
       <FormRow label="Max Capacity" error={errors?.maxCapacity?.message}>
         <Input
-          disabled={isLoading}
+          disabled={isDoing}
           type="number"
           id="maxCapacity"
           {...register("maxCapacity", {
@@ -80,7 +74,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
 
       <FormRow label="Price" error={errors?.regularPrice?.message}>
         <Input
-          disabled={isLoading}
+          disabled={isDoing}
           type="number"
           id="regularPrice"
           {...register("regularPrice", {
@@ -95,7 +89,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
 
       <FormRow label="Discount" error={errors?.discount?.message}>
         <Input
-          disabled={isLoading}
+          disabled={isDoing}
           type="number"
           id="discount"
           defaultValue={0}
@@ -120,7 +114,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
       {!editSession && (
         <FormRow label="Cabin Photo">
           <FileInput
-            disabled={isLoading}
+            disabled={isDoing}
             id="image"
             accept="image/*"
             {...register("image", {
@@ -135,7 +129,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isLoading}>{editSession ? "Edit Cabin" : "Add cabin"}</Button>
+        <Button disabled={isDoing}>{editSession ? "Edit Cabin" : "Add cabin"}</Button>
       </FormRow>
     </Form>
   );

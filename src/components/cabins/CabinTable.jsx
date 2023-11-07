@@ -40,6 +40,7 @@ export const CabinTable = function () {
   });
 
   if (isLoading) return <Spinner />;
+  console.log("rendered");
   return (
     <Table role="table">
       <TableHeader role="row">
