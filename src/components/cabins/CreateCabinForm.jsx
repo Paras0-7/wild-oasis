@@ -24,13 +24,14 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
   const { errors } = formState;
 
   const { isLoading, mutate: addCabin } = useCreateCabin(reset);
-  const { isEditing, updateCabin } = useEditCabin(reset);
+  const { isEditing, updateCabin } = useEditCabin();
   const isDoing = isLoading || isEditing;
   const onSubmit = function (data) {
     // console.log(data);
-    editSession ? updateCabin(data) : addCabin({ ...data, image: data.image[0] });
+    editSession ? updateCabin(data, { onSuccess: () => reset(getValues()) }) : addCabin({ ...data, image: data.image[0] });
   };
 
+  console.log(getValues());
   const onError = function (errors) {
     console.log(errors);
   };
