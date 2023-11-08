@@ -14,7 +14,7 @@ import { FormRow } from "../../ui/Form/FormRow";
 import { useCreateCabin } from "../../hooks/useCreateCabin";
 import { useEditCabin } from "../../hooks/useEditCabin";
 
-export const CreateCabinForm = function ({ cabinToEdit = {} }) {
+export const CreateCabinForm = function ({ cabinToEdit = {}, onClose }) {
   const { id: editId } = cabinToEdit;
   console.log(cabinToEdit.maxCapacity);
   const editSession = Boolean(editId);
@@ -28,7 +28,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
   const isDoing = isLoading || isEditing;
   const onSubmit = function (data) {
     // console.log(data);
-    editSession ? updateCabin(data, { onSuccess: () => reset(getValues()) }) : addCabin({ ...data, image: data.image[0] });
+    editSession ? updateCabin(data, { onSuccess: () => reset(getValues()) }) : addCabin({ ...data, image: data.image[0] }, { onSuccess: () => onClose?.() });
   };
 
   console.log(getValues());
@@ -38,7 +38,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
 
   console.log("Props changed");
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)} type={onClose ? "modal" : "regular"}>
       <FormRow label="Cabin Name" error={errors?.name?.message}>
         <Input
           disabled={isDoing}
@@ -119,7 +119,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {} }) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={onClose}>
           Cancel
         </Button>
         <Button disabled={isDoing}>{editSession ? "Edit Cabin" : "Add cabin"}</Button>
