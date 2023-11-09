@@ -2,13 +2,10 @@
 /* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin, getCabins } from "../../services/apiCabins";
-import toast from "react-hot-toast";
-import { useState } from "react";
-import { CreateCabinForm } from "./CreateCabinForm";
 import { useDeleteCabin } from "../../hooks/useDeleteCabin";
-import { HiPencil, HiTrash } from "react-icons/hi2";
+import { HiTrash } from "react-icons/hi2";
+import { EditCabin } from "./EditCabin";
+import { DeleteCabin } from "./DeleteCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -49,9 +46,13 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
+const Actions = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
 export const CabinRow = function ({ cabin }) {
   const { name, maxCapacity, regularPrice, discount, image, id: cabinId } = cabin;
-  const [showForm, setShowForm] = useState(false);
   const { isLoading, mutate } = useDeleteCabin(cabinId);
   console.log("cabin rendered");
   return (
@@ -62,17 +63,11 @@ export const CabinRow = function ({ cabin }) {
         <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice)}</Price>
         <Discount>{formatCurrency(discount)}</Discount>
-        <div>
-          <button onClick={() => setShowForm(!showForm)}>
-            <HiPencil />
-          </button>
-          <button onClick={() => mutate(cabinId)} disabled={isLoading}>
-            <HiTrash />
-          </button>
-        </div>
+        <Actions>
+          <EditCabin cabin={cabin} />
+          <DeleteCabin isDeleting={isLoading} deleteCabin={() => mutate(cabinId)} />
+        </Actions>
       </TableRow>
-
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
     </>
   );
 };

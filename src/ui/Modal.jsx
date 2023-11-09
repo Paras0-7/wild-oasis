@@ -4,6 +4,7 @@ import { Children, cloneElement, createContext, useContext, useEffect, useRef, u
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -68,21 +69,8 @@ const Open = function ({ children, opens }) {
   return cloneElement(children, { onClick: () => open(opens) });
 };
 const Window = function ({ children, name }) {
-  const ref = useRef();
   const { openName, close } = useContext(ModalContext);
-  useEffect(
-    function () {
-      function handleClick(e) {
-        if (ref.current && !ref.current.contains(e.target)) {
-          close();
-        }
-      }
-      document.addEventListener("click", handleClick, true);
-      return () => document.removeEventListener("click", handleClick, true);
-    },
-    [close]
-  );
-
+  const ref = useOutsideClick(close);
   if (name !== openName) return null;
   return createPortal(
     <Overlay>
