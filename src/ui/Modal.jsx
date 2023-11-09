@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Children, cloneElement, createContext, useContext, useState } from "react";
+import { Children, cloneElement, createContext, useContext, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
@@ -68,11 +68,25 @@ const Open = function ({ children, opens }) {
   return cloneElement(children, { onClick: () => open(opens) });
 };
 const Window = function ({ children, name }) {
+  const ref = useRef();
   const { openName, close } = useContext(ModalContext);
+  useEffect(
+    function () {
+      function handleClick(e) {
+        if (ref.current && !ref.current.contains(e.target)) {
+          close();
+        }
+      }
+      document.addEventListener("click", handleClick, true);
+      return () => document.removeEventListener("click", handleClick, true);
+    },
+    [close]
+  );
+
   if (name !== openName) return null;
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />
         </Button>
