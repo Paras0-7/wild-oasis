@@ -10,7 +10,9 @@ export const useOutsideClick = function (close) {
         }
       }
       document.addEventListener("click", handleClick, true);
-      return () => document.removeEventListener("click", handleClick, true);
+      return () => {
+        document.removeEventListener("click", handleClick, true);
+      };
     },
     [close]
   );
