@@ -6,6 +6,7 @@ import { useDeleteCabin } from "../../hooks/useDeleteCabin";
 import { HiTrash } from "react-icons/hi2";
 import { EditCabin } from "./EditCabin";
 import { DeleteCabin } from "./DeleteCabin";
+import { Menus } from "../../ui/Menus";
 
 const TableRow = styled.div`
   display: grid;
@@ -46,15 +47,9 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
-const Actions = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
 export const CabinRow = function ({ cabin }) {
   const { name, maxCapacity, regularPrice, discount, image, id: cabinId } = cabin;
   const { isLoading, mutate } = useDeleteCabin(cabinId);
-  console.log("cabin rendered");
   return (
     <>
       <TableRow role="row">
@@ -63,10 +58,19 @@ export const CabinRow = function ({ cabin }) {
         <div>Fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice)}</Price>
         <Discount>{formatCurrency(discount)}</Discount>
-        <Actions>
-          <EditCabin cabin={cabin} />
-          <DeleteCabin isDeleting={isLoading} deleteCabin={() => mutate(cabinId)} />
-        </Actions>
+        <div>
+          <Menus.Menu>
+            <Menus.Toggle id={cabinId} />
+            <Menus.List id={cabinId}>
+              <Menus.Button>
+                <EditCabin cabin={cabin} />
+              </Menus.Button>
+              <Menus.Button>
+                <DeleteCabin isDeleting={isLoading} deleteCabin={() => mutate(cabinId)} />
+              </Menus.Button>
+            </Menus.List>
+          </Menus.Menu>
+        </div>
       </TableRow>
     </>
   );

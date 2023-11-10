@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import styled from "styled-components";
 
 const StyledTable = styled.div`
@@ -28,6 +29,7 @@ const StyledHeader = styled(CommonRow)`
   color: var(--color-grey-600);
 `;
 
+// eslint-disable-next-line no-unused-vars
 const StyledRow = styled(CommonRow)`
   padding: 1.2rem 2.4rem;
 

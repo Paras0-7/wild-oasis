@@ -16,7 +16,6 @@ import { useEditCabin } from "../../hooks/useEditCabin";
 
 export const CreateCabinForm = function ({ cabinToEdit = {}, onClose }) {
   const { id: editId } = cabinToEdit;
-  console.log(cabinToEdit.maxCapacity);
   const editSession = Boolean(editId);
   const { register, handleSubmit, reset, getValues, formState } = useForm({
     defaultValues: editSession && cabinToEdit,
@@ -33,10 +32,9 @@ export const CreateCabinForm = function ({ cabinToEdit = {}, onClose }) {
 
   console.log(getValues());
   const onError = function (errors) {
-    console.log(errors);
+    // console.log(errors);
   };
 
-  console.log("Props changed");
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)} type={onClose ? "modal" : "regular"}>
       <FormRow label="Cabin Name" error={errors?.name?.message}>
@@ -88,7 +86,7 @@ export const CreateCabinForm = function ({ cabinToEdit = {}, onClose }) {
           defaultValue={0}
           {...register("discount", {
             required: "This field is required",
-            validate: (value) => value < getValues().regularPrice || "Discount should be less than the regular price",
+            validate: (value) => +value < +getValues().regularPrice || "Discount should be less than the regular price",
           })}
         />
       </FormRow>
