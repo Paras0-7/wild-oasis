@@ -3,10 +3,13 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 import { useDeleteCabin } from "../../hooks/useDeleteCabin";
-import { HiTrash } from "react-icons/hi2";
+import { HiPencil, HiTrash } from "react-icons/hi2";
 import { EditCabin } from "./EditCabin";
 import { DeleteCabin } from "./DeleteCabin";
 import { Menus } from "../../ui/Menus";
+import { Modal } from "../../ui/Modal";
+import { ConfirmDelete } from "../../ui/ConfirmDelete";
+import { CreateCabinForm } from "./CreateCabinForm";
 
 const TableRow = styled.div`
   display: grid;
@@ -47,9 +50,14 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
+const Actions = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
 export const CabinRow = function ({ cabin }) {
   const { name, maxCapacity, regularPrice, discount, image, id: cabinId } = cabin;
-  const { isLoading, mutate } = useDeleteCabin(cabinId);
+  const { isLoading: isDeleting, mutate: deleteCabin } = useDeleteCabin(cabinId);
   return (
     <>
       <TableRow role="row">
@@ -59,17 +67,23 @@ export const CabinRow = function ({ cabin }) {
         <Price>{formatCurrency(regularPrice)}</Price>
         <Discount>{formatCurrency(discount)}</Discount>
         <div>
-          <Menus.Menu>
-            <Menus.Toggle id={cabinId} />
-            <Menus.List id={cabinId}>
-              <Menus.Button>
-                <EditCabin cabin={cabin} />
-              </Menus.Button>
-              <Menus.Button>
-                <DeleteCabin isDeleting={isLoading} deleteCabin={() => mutate(cabinId)} />
-              </Menus.Button>
-            </Menus.List>
-          </Menus.Menu>
+          <Modal>
+            <Menus.Menu>
+              <Menus.Toggle id={cabinId} />
+              <Menus.List id={cabinId}>
+                <EditCabin />
+                <DeleteCabin />
+              </Menus.List>
+            </Menus.Menu>
+            <div>
+              <Modal.Window name="edit-cabin">
+                <CreateCabinForm cabinToEdit={cabin} />
+              </Modal.Window>
+              <Modal.Window name="delete-cabin">
+                <ConfirmDelete resourceName="Cabin" disabled={isDeleting} onConfirm={() => deleteCabin(cabinId)} />
+              </Modal.Window>
+            </div>
+          </Modal>
         </div>
       </TableRow>
     </>

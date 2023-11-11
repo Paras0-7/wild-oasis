@@ -1,20 +1,14 @@
 /* eslint-disable react/prop-types */
 import { HiPencil } from "react-icons/hi2";
-import { Button } from "../../ui/Button/Button";
 import { Modal } from "../../ui/Modal";
-import { CreateCabinForm } from "./CreateCabinForm";
+import { Menus } from "../../ui/Menus";
 
-export const EditCabin = function ({ cabin }) {
+export const EditCabin = function () {
   return (
-    <Modal>
+    <>
       <Modal.Open opens="edit-cabin">
-        <Button>
-          <HiPencil />
-        </Button>
+        <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
       </Modal.Open>
-      <Modal.Window name="edit-cabin">
-        <CreateCabinForm cabinToEdit={cabin} />
-      </Modal.Window>
-    </Modal>
+    </>
   );
 };

@@ -1,20 +1,14 @@
 /* eslint-disable react/prop-types */
 import { HiTrash } from "react-icons/hi2";
-import { Button } from "../../ui/Button/Button";
 import { Modal } from "../../ui/Modal";
-import { ConfirmDelete } from "../../ui/ConfirmDelete";
+import { Menus } from "../../ui/Menus";
 
-export const DeleteCabin = function ({ isDeleting, deleteCabin }) {
+export const DeleteCabin = function () {
   return (
-    <Modal>
+    <>
       <Modal.Open opens="delete-cabin">
-        <Button>
-          <HiTrash />
-        </Button>
+        <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
       </Modal.Open>
-      <Modal.Window name="delete-cabin">
-        <ConfirmDelete resourceName="Cabin" disabled={isDeleting} onConfirm={deleteCabin} />
-      </Modal.Window>
-    </Modal>
+    </>
   );
 };

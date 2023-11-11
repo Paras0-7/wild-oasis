@@ -27,10 +27,16 @@ export const CreateCabinForm = function ({ cabinToEdit = {}, onClose }) {
   const isDoing = isLoading || isEditing;
   const onSubmit = function (data) {
     // console.log(data);
-    editSession ? updateCabin(data, { onSuccess: () => reset(getValues()) }) : addCabin({ ...data, image: data.image[0] }, { onSuccess: () => onClose?.() });
+    editSession
+      ? updateCabin(data, {
+          onSuccess: () => {
+            reset(getValues());
+            onClose();
+          },
+        })
+      : addCabin({ ...data, image: data.image[0] }, { onSuccess: () => onClose?.() });
   };
 
-  console.log(getValues());
   const onError = function (errors) {
     // console.log(errors);
   };

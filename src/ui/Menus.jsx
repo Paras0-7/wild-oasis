@@ -3,6 +3,7 @@
 import { createContext, useContext, useState } from "react";
 import { HiEllipsisVertical } from "react-icons/hi2";
 import styled from "styled-components";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const Menu = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ const StyledList = styled.ul`
   top: ${(props) => props.position.y}px;
 `;
 
-const StyledButton = styled.div`
+const StyledButton = styled.button`
   width: 100%;
   text-align: left;
   background: none;
@@ -69,7 +70,9 @@ const MenusContext = createContext();
 export const Menus = function ({ children }) {
   const [cabinId, setCabinId] = useState("");
   const [positions, setPositions] = useState({});
-  const close = () => setCabinId("");
+  const close = (place) => {
+    setCabinId("");
+  };
   const open = setCabinId;
   return <MenusContext.Provider value={{ cabinId, close, open, positions, setPositions }}>{children}</MenusContext.Provider>;
 };
@@ -82,11 +85,12 @@ function Toggle({ id }) {
       x: window.innerWidth - positions.width - positions.x,
       y: positions.height + positions.y + 8,
     });
-    if (cabinId === "" || cabinId !== id) {
-      return open(id);
-    }
 
-    close();
+    if (cabinId === "" || cabinId !== id) {
+      open(id);
+    } else {
+      close();
+    }
   };
   return (
     <StyledToggle onClick={handleClick}>
@@ -96,17 +100,30 @@ function Toggle({ id }) {
 }
 
 function List({ id, children }) {
-  const { cabinId, positions } = useContext(MenusContext);
+  const { cabinId, positions, close } = useContext(MenusContext);
+  const ref = useOutsideClick(close);
 
   if (id !== cabinId) return;
 
-  return <StyledList position={positions}>{children}</StyledList>;
+  return (
+    <StyledList ref={ref} position={positions}>
+      {children}
+    </StyledList>
+  );
 }
 
-function Button({ children }) {
+function Button({ children, icon, onClick }) {
+  const { close } = useContext(MenusContext);
+  const clickHandler = function () {
+    onClick();
+    close();
+  };
   return (
     <li>
-      <StyledButton>{children}</StyledButton>
+      <StyledButton onClick={clickHandler}>
+        <span>{icon}</span>
+        {children}
+      </StyledButton>
     </li>
   );
 }
