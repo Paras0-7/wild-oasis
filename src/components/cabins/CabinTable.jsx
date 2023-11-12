@@ -5,6 +5,7 @@ import { getCabins } from "../../services/apiCabins";
 import { Spinner } from "../../ui/spinner/Spinner";
 import { CabinRow } from "./CabinRow";
 import { Menus } from "../../ui/Menus";
+import { useSearchParams } from "react-router-dom";
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -40,7 +41,24 @@ export const CabinTable = function () {
     queryFn: getCabins,
   });
 
+  const [searchParams] = useSearchParams();
   if (isLoading) return <Spinner />;
+  const filterValue = searchParams.get("sort");
+  let filteredCabins = cabins;
+  if (filterValue === "price") {
+    console.log("herer");
+    filteredCabins.sort((a, b) => {
+      if (a.regularPrice < b.regularPrice) return -1;
+      if (a.regularPrice > b.regularPrice) return 1;
+      return 0;
+    });
+  } else if (filterValue === "discount") {
+    filteredCabins.sort((a, b) => {
+      if (a.discount < b.discount) return -1;
+      if (a.discount > b.discount) return 1;
+      return 0;
+    });
+  }
   return (
     <Menus>
       <Table role="table">
@@ -52,7 +70,7 @@ export const CabinTable = function () {
           <div>Discount</div>
           <div></div>
         </TableHeader>
-        {cabins.map((cabin) => (
+        {filteredCabins.map((cabin) => (
           <CabinRow key={cabin.id} cabin={cabin} />
         ))}
       </Table>
