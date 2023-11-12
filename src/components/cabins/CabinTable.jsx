@@ -7,7 +7,7 @@ import { CabinRow } from "./CabinRow";
 import { Menus } from "../../ui/Menus";
 import { useSearchParams } from "react-router-dom";
 
-const Table = styled.div`
+export const Table = styled.div`
   border: 1px solid var(--color-grey-200);
 
   font-size: 1.4rem;
@@ -16,7 +16,7 @@ const Table = styled.div`
   overflow: hidden;
 `;
 
-const TableHeader = styled.header`
+export const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
   column-gap: 2.4rem;
@@ -43,21 +43,13 @@ export const CabinTable = function () {
 
   const [searchParams] = useSearchParams();
   if (isLoading) return <Spinner />;
-  const filterValue = searchParams.get("sort");
+  const sortBy = searchParams.get("sortBy") || "";
+  const [field, order] = sortBy.split("-");
+  const modifier = order === "asc" ? 1 : -1;
   let filteredCabins = cabins;
-  if (filterValue === "price") {
-    console.log("herer");
-    filteredCabins.sort((a, b) => {
-      if (a.regularPrice < b.regularPrice) return -1;
-      if (a.regularPrice > b.regularPrice) return 1;
-      return 0;
-    });
-  } else if (filterValue === "discount") {
-    filteredCabins.sort((a, b) => {
-      if (a.discount < b.discount) return -1;
-      if (a.discount > b.discount) return 1;
-      return 0;
-    });
+
+  if (order) {
+    filteredCabins.sort((a, b) => (a[field] - b[field]) * modifier);
   }
   return (
     <Menus>

@@ -11,7 +11,7 @@ import { Modal } from "../../ui/Modal";
 import { ConfirmDelete } from "../../ui/ConfirmDelete";
 import { CreateCabinForm } from "./CreateCabinForm";
 
-const TableRow = styled.div`
+export const TableRow = styled.div`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
   column-gap: 2.4rem;
