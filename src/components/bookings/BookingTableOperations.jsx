@@ -1,8 +1,8 @@
-import SortBy from "../../ui/SortBy";
-import Filter from "../../ui/Filter";
-import TableOperations from "../../ui/TableOperations";
+import { Filter } from "../../ui/Filter";
+import { Sort } from "../../ui/Sort";
+import { TableOperations } from "../../ui/TableOperations";
 
-function BookingTableOperations() {
+export function BookingTableOperations() {
   return (
     <TableOperations>
       <Filter
@@ -15,7 +15,7 @@ function BookingTableOperations() {
         ]}
       />
 
-      <SortBy
+      <Sort
         options={[
           { value: "startDate-desc", label: "Sort by date (recent first)" },
           { value: "startDate-asc", label: "Sort by date (earlier first)" },
@@ -29,5 +29,3 @@ function BookingTableOperations() {
     </TableOperations>
   );
 }
-
-export default BookingTableOperations;

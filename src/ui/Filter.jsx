@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useSearchParams } from "react-router-dom";
 import styled, { css } from "styled-components";
@@ -36,21 +37,21 @@ const FilterButton = styled.button`
   }
 `;
 
-export const Filter = function () {
+export const Filter = function ({ filterField, options }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const currentFilter = searchParams.get(filterField) || options.at(0).value;
   const handleClick = function (value) {
-    searchParams.set("sort", value);
+    searchParams.set(filterField, value);
     setSearchParams(searchParams);
   };
-  const sort = searchParams.get("sort");
+
   return (
     <StyledFilter>
-      <FilterButton active={sort === "price" ? "price" : null} onClick={() => handleClick("price")}>
-        Price
-      </FilterButton>
-      <FilterButton active={sort === "discount" ? "discount" : null} onClick={() => handleClick("discount")}>
-        Discount
-      </FilterButton>
+      {options.map((option) => (
+        <FilterButton onClick={() => handleClick(option.value)} key={option.value} active={option.value === currentFilter} disabled={option.value === currentFilter}>
+          {option.label}
+        </FilterButton>
+      ))}
     </StyledFilter>
   );
 };
