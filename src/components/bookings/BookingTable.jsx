@@ -8,16 +8,32 @@ import { useQueries, useQuery } from "@tanstack/react-query";
 import { getBookings } from "../../services/apiBookings";
 import { Spinner } from "../../ui/spinner/Spinner";
 import { useSearchParams } from "react-router-dom";
+import { Pagination } from "../../ui/Pagination";
 
+const Footer = styled.footer`
+  background-color: var(--color-grey-50);
+  display: flex;
+  justify-content: center;
+  padding: 1.2rem;
+
+  /* This will hide the footer when it contains no child elements. Possible thanks to the parent selector :has 🎉 */
+  &:not(:has(*)) {
+    display: none;
+  }
+`;
 export function BookingTable() {
   const [searchParams] = useSearchParams();
   const filterValue = searchParams.get("status");
 
   const filter = !filterValue || filterValue === "all" ? null : { field: "status", value: filterValue };
 
+  const sort = searchParams.get("sortBy") || "startDate-desc";
+
+  const [field, order] = sort.split("-");
+  const sortBy = { field, order };
   const { isLoading, data: bookings } = useQuery({
-    queryFn: () => getBookings({ filter }),
-    queryKey: ["bookings", filter],
+    queryFn: () => getBookings({ filter, sortBy }),
+    queryKey: ["bookings", filter, sortBy],
   });
 
   if (isLoading) return <Spinner />;
@@ -37,6 +53,10 @@ export function BookingTable() {
         {bookings.map((booking) => (
           <BookingRow key={booking.id} booking={booking} />
         ))}
+
+        <Footer>
+          <Pagination count={5} />
+        </Footer>
       </Table>
     </Menus>
   );
