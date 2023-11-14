@@ -23,17 +23,24 @@ const Footer = styled.footer`
 `;
 export function BookingTable() {
   const [searchParams] = useSearchParams();
+
+  // filter
   const filterValue = searchParams.get("status");
 
   const filter = !filterValue || filterValue === "all" ? null : { field: "status", value: filterValue };
 
+  // sort
   const sort = searchParams.get("sortBy") || "startDate-desc";
 
   const [field, order] = sort.split("-");
   const sortBy = { field, order };
-  const { isLoading, data: bookings } = useQuery({
-    queryFn: () => getBookings({ filter, sortBy }),
-    queryKey: ["bookings", filter, sortBy],
+
+  // pagination
+  const page = !searchParams.get("page") ? 1 : +searchParams.get("page");
+
+  const { isLoading, data: { data: bookings, count } = {} } = useQuery({
+    queryFn: () => getBookings({ filter, sortBy, page }),
+    queryKey: ["bookings", filter, sortBy, page],
   });
 
   if (isLoading) return <Spinner />;
@@ -55,7 +62,7 @@ export function BookingTable() {
         ))}
 
         <Footer>
-          <Pagination count={5} />
+          <Pagination count={count} />
         </Footer>
       </Table>
     </Menus>
