@@ -50,11 +50,6 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
-const Actions = styled.div`
-  display: flex;
-  gap: 1rem;
-`;
-
 export const CabinRow = function ({ cabin }) {
   const { name, maxCapacity, regularPrice, discount, image, id: cabinId } = cabin;
   const { isLoading: isDeleting, mutate: deleteCabin } = useDeleteCabin(cabinId);

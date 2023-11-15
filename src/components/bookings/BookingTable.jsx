@@ -4,7 +4,7 @@ import { Menus } from "../../ui/Menus";
 import { Table, TableHeader } from "../cabins/CabinTable";
 import styled from "styled-components";
 import { Empty } from "../../ui/Empty";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getBookings } from "../../services/apiBookings";
 import { Spinner } from "../../ui/spinner/Spinner";
 import { useSearchParams } from "react-router-dom";
