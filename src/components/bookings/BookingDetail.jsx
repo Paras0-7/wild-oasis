@@ -9,7 +9,7 @@ import Tag from "../../ui/Tag";
 import { Button } from "../../ui/Button/Button";
 import { ButtonGroup } from "../../ui/Button/ButtonGroup";
 import { ButtonText } from "../../ui/Button/ButtonText";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useBooking } from "../../hooks/useBooking";
 import { Spinner } from "../../ui/spinner/Spinner";
 
@@ -20,11 +20,10 @@ const HeadingGroup = styled.div`
 `;
 
 export function BookingDetail() {
-  const { bookingId } = useParams();
-  const { isLoading, booking } = useBooking(bookingId);
-  const { status } = booking;
+  const { isLoading, booking = {} } = useBooking();
+  const { status = "", id: bookingId } = booking;
   const moveBack = useMoveBack();
-
+  const navigate = useNavigate();
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
@@ -45,6 +44,7 @@ export function BookingDetail() {
       <BookingDataBox booking={booking} />
 
       <ButtonGroup>
+        {status === "unconfirmed" && <Button onClick={() => navigate(`checkin`)}>CheckIn</Button>}
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>

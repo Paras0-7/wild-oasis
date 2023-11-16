@@ -54,6 +54,10 @@ export const Button = styled.button`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
+
+  &:disabled {
+    background-color: var(--color-grey-400);
+  }
 `;
 
 Button.defaultProps = {

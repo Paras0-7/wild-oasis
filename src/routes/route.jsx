@@ -9,6 +9,7 @@ import Login from "../pages/Login";
 import { PageNotFound } from "../pages/PageNotFound";
 import { AppLayout } from "../ui/AppLayout";
 import { Booking } from "../pages/Booking";
+import { CheckIn } from "../pages/CheckIn";
 
 export const AppRoutes = function () {
   return (
@@ -18,6 +19,7 @@ export const AppRoutes = function () {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/bookings" element={<Bookings />}></Route>
         <Route path="/bookings/:bookingId" element={<Booking />} />
+        <Route path="/bookings/:bookingId/checkin" element={<CheckIn />} />
         <Route path="/cabins" element={<Cabins />} />
         <Route path="/user" element={<NewUsers />} />
         <Route path="/settings" element={<Settings />} />
