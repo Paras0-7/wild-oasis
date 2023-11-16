@@ -115,8 +115,8 @@ function List({ id, children }) {
 function Button({ children, icon, onClick }) {
   const { close } = useContext(MenusContext);
   const clickHandler = function () {
-    onClick();
     close();
+    onClick && onClick();
   };
   return (
     <li>
