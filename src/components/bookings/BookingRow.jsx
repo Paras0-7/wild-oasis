@@ -10,8 +10,9 @@ import { formatDistanceFromNow } from "../../utils/helpers";
 import { Table } from "../cabins/CabinTable";
 import { TableRow } from "../cabins/CabinRow";
 import { Menus } from "../../ui/Menus";
-import { HiArrowDownOnSquare, HiEye } from "react-icons/hi2";
+import { HiArrowDownOnSquare, HiArrowUpOnSquare, HiEye } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
+import { useCheckOut } from "../../hooks/useCheckOut";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -61,7 +62,7 @@ function BookingRow({
   };
 
   const navigate = useNavigate();
-
+  const checkOut = useCheckOut();
   return (
     <TableRow>
       <Cabin>{cabinName}</Cabin>
@@ -92,6 +93,11 @@ function BookingRow({
           {status === "unconfirmed" && (
             <Menus.Button icon={<HiArrowDownOnSquare />} onClick={() => navigate(`${bookingId}/checkin`)}>
               CheckIn
+            </Menus.Button>
+          )}
+          {status === "checked-in" && (
+            <Menus.Button icon={<HiArrowUpOnSquare />} onClick={() => checkOut(bookingId)}>
+              CheckOut
             </Menus.Button>
           )}
         </Menus.List>
