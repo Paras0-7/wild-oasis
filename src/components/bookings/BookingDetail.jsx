@@ -20,8 +20,8 @@ const HeadingGroup = styled.div`
 `;
 
 export function BookingDetail() {
-  const { isLoading, booking = {} } = useBooking();
-  const { status = "", id: bookingId } = booking;
+  const { isLoading, booking } = useBooking();
+  const { status = "", id: bookingId } = booking || {};
   const moveBack = useMoveBack();
   const navigate = useNavigate();
   const statusToTagName = {
@@ -41,7 +41,7 @@ export function BookingDetail() {
         <ButtonText onClick={moveBack}>&larr; Back</ButtonText>
       </Row>
 
-      <BookingDataBox booking={booking} />
+      {booking && <BookingDataBox booking={booking} />}
 
       <ButtonGroup>
         {status === "unconfirmed" && <Button onClick={() => navigate(`checkin`)}>CheckIn</Button>}
