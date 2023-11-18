@@ -1,14 +1,23 @@
 import { useState } from "react";
-import Button from "../../ui/Button";
 import Form from "../../ui/Form";
+import FormRowVertical from "../../ui/Form/FormRowVertical";
 import Input from "../../ui/Input";
-import FormRowVertical from "../../ui/FormRowVertical";
+import { Button } from "../../ui/Button/Button";
+import { useLogin } from "../../hooks/useLogin";
+import toast from "react-hot-toast";
+import SpinnerMini from "../../ui/spinner/SpinnerMini";
 
-function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export function LoginForm() {
+  const [email, setEmail] = useState("parasrawat681@gmail.com");
+  const [password, setPassword] = useState("password");
 
-  function handleSubmit() {}
+  const { isLoading, loginUser } = useLogin();
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!email && !password) return toast.error("Please enter credentials");
+    loginUser({ email, password });
+  }
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -19,23 +28,18 @@ function LoginForm() {
           // This makes this form better for password managers
           autoComplete="username"
           value={email}
+          disabled={isLoading}
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormRowVertical>
       <FormRowVertical label="Password">
-        <Input
-          type="password"
-          id="password"
-          autoComplete="current-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+        <Input type="password" disabled={isLoading} id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </FormRowVertical>
       <FormRowVertical>
-        <Button size="large">Login</Button>
+        <Button disabled={isLoading} size="large">
+          {isLoading ? <SpinnerMini /> : "Login"}
+        </Button>
       </FormRowVertical>
     </Form>
   );
 }
-
-export default LoginForm;
