@@ -89,23 +89,29 @@ export const Pagination = function ({ count }) {
   };
   return (
     <StyledPagination>
-      <P>
-        Showing <span>{(currentPage - 1) * PAGE_SIZE + 1}</span> to <span>{currentPage === pageCount ? count : currentPage * PAGE_SIZE}</span> of <span>{count}</span> results
-      </P>
-      <Buttons>
-        {!prev && (
-          <PaginationButton onClick={previousPage}>
-            <HiChevronLeft />
-            <span>Previous</span>
-          </PaginationButton>
-        )}
-        {!next && (
-          <PaginationButton onClick={nextPage}>
-            <span>Next</span>
-            <HiChevronRight />
-          </PaginationButton>
-        )}
-      </Buttons>
+      {count > 0 ? (
+        <>
+          <P>
+            Showing <span>{(currentPage - 1) * PAGE_SIZE + 1}</span> to <span>{currentPage === pageCount ? count : currentPage * PAGE_SIZE}</span> of <span>{count}</span> results
+          </P>
+          <Buttons>
+            {!prev && (
+              <PaginationButton onClick={previousPage}>
+                <HiChevronLeft />
+                <span>Previous</span>
+              </PaginationButton>
+            )}
+            {!next && (
+              <PaginationButton onClick={nextPage}>
+                <span>Next</span>
+                <HiChevronRight />
+              </PaginationButton>
+            )}
+          </Buttons>
+        </>
+      ) : (
+        <P>No results found</P>
+      )}
     </StyledPagination>
   );
 };
