@@ -10,7 +10,7 @@ export const useLogin = function () {
     mutationFn: login,
     onSuccess: (data) => {
       console.log(data);
-      queryClient.setQueriesData(["user"], data);
+      queryClient.setQueriesData(["user"], data.user);
       toast.success("Login Successfull");
       navigate("/");
     },
