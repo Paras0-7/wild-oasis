@@ -7,6 +7,7 @@ import Form from "../../ui/Form";
 import { FormRow } from "../../ui/Form/FormRow";
 import Input from "../../ui/Input";
 import { useSignUp } from "../../hooks/useSignUp";
+import SpinnerMini from "../../ui/spinner/SpinnerMini";
 
 function SignupForm() {
   const { register, formState, getValues, handleSubmit, reset } = useForm();
@@ -53,7 +54,9 @@ function SignupForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button>Create new user</Button>
+        <div style={{ display: "flex", flexDirection: "column", width: "15rem" }}>
+          <Button>{isLoading ? <SpinnerMini /> : "Create new user"}</Button>
+        </div>
       </FormRow>
     </Form>
   );
