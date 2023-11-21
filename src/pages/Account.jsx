@@ -15,9 +15,8 @@ export const Account = function () {
 
       <Row>
         <Heading as="h3">Update password</Heading>
-        <p>
-          <UpdatePasswordForm />
-        </p>
+
+        <UpdatePasswordForm />
       </Row>
     </>
   );

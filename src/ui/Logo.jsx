@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useDarkMode } from "../context/DarkModeContext";
 
 const StyledLogo = styled.div`
   text-align: center;
@@ -11,10 +12,13 @@ const Img = styled.img`
 `;
 
 export const Logo = function () {
+  const { darkMode } = useDarkMode();
+
+  const src = darkMode ? "/logo-dark.png" : "/logo-light.png";
   return (
     <StyledLogo>
       <Link to="/dashboard">
-        <Img src="/logo-light.png" alt="Logo" />
+        <Img src={src} alt="Logo" />
       </Link>
     </StyledLogo>
   );
