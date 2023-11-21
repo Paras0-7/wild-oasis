@@ -1,16 +1,15 @@
 import { useForm } from "react-hook-form";
-import Button from "../../ui/Button";
+import { FormRow } from "../../ui/Form/FormRow";
 import Form from "../../ui/Form";
-import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
-
-import { useUpdateUser } from "./useUpdateUser";
+import { Button } from "../../ui/Button/Button";
+import { useUpdateUser } from "../../hooks/useUpdateUser";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
-  const { updateUser, isUpdating } = useUpdateUser();
+  const { updateUser, isLoading: isUpdating } = useUpdateUser();
 
   function onSubmit({ password }) {
     updateUser({ password }, { onSuccess: reset });
@@ -18,10 +17,7 @@ function UpdatePasswordForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <FormRow
-        label="Password (min 8 characters)"
-        error={errors?.password?.message}
-      >
+      <FormRow label="Password (min 8 characters)" error={errors?.password?.message}>
         <Input
           type="password"
           id="password"
@@ -37,10 +33,7 @@ function UpdatePasswordForm() {
         />
       </FormRow>
 
-      <FormRow
-        label="Confirm password"
-        error={errors?.passwordConfirm?.message}
-      >
+      <FormRow label="Confirm password" error={errors?.passwordConfirm?.message}>
         <Input
           type="password"
           autoComplete="new-password"
@@ -48,8 +41,7 @@ function UpdatePasswordForm() {
           disabled={isUpdating}
           {...register("passwordConfirm", {
             required: "This field is required",
-            validate: (value) =>
-              getValues().password === value || "Passwords need to match",
+            validate: (value) => getValues().password === value || "Passwords need to match",
           })}
         />
       </FormRow>
