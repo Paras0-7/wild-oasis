@@ -3,6 +3,8 @@ import { useRecentBookings } from "../../hooks/useRecentBookings";
 import { Spinner } from "../../ui/spinner/Spinner";
 import { useRecentStays } from "../../hooks/useRecentStays";
 import { Stats } from "./Stats";
+import { SalesChart } from "./SalesChart";
+import { DurationChart } from "./DurationChart";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -20,8 +22,8 @@ export function DashboadLayout() {
     <StyledDashboardLayout>
       <Stats bookings={recentBookings} confirmedStays={confirmedStays} />
       <div>Today&apos;s Activity</div>
-      <div>Chart Stay Durations</div>
-      <div>Chart Sales</div>
+      <DurationChart confirmedStays={confirmedStays} />
+      <SalesChart bookings={recentBookings} />
     </StyledDashboardLayout>
   );
 }
