@@ -145,7 +145,7 @@ export const DurationChart = function ({ confirmedStays }) {
       <Heading as="h2"> Stay Duration Summary</Heading>
       <ResponsiveContainer width="100%" height={240}>
         <PieChart>
-          <Pie data={data} nameKey="duration" dataaKey="value" innerRadius={20} outerRadius={120}>
+          <Pie data={data} nameKey="duration" dataaKey="value" innerRadius={90} outerRadius={120} paddingAngle={2}>
             {data.map((entry) => (
               <Cell fill={entry.color} stroke={entry.color} key={entry.duration} />
             ))}
