@@ -5,6 +5,7 @@ import { useRecentStays } from "../../hooks/useRecentStays";
 import { Stats } from "./Stats";
 import { SalesChart } from "./SalesChart";
 import { DurationChart } from "./DurationChart";
+import TodayActivity from "../check-in-out/TodayActivity";
 
 const StyledDashboardLayout = styled.div`
   display: grid;
@@ -21,7 +22,7 @@ export function DashboadLayout() {
   return (
     <StyledDashboardLayout>
       <Stats bookings={recentBookings} confirmedStays={confirmedStays} />
-      <div>Today&apos;s Activity</div>
+      <TodayActivity />
       <DurationChart confirmedStays={confirmedStays} />
       <SalesChart bookings={recentBookings} />
     </StyledDashboardLayout>
