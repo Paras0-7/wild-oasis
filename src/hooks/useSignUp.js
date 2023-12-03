@@ -9,7 +9,11 @@ export const useSignUp = function () {
       toast.success(`New Account for ${data.user.user_metadata.name} created successfully`);
     },
 
-    onError: (err) => toast.error(err.message),
+    onError: (err) => {
+      console.log(err);
+
+      toast.error(err.message);
+    },
   });
 
   return { isLoading, signUp };

@@ -15,7 +15,7 @@ function SignupForm() {
   const { isLoading, signUp } = useSignUp();
   const submitHandler = function (data) {
     const { fullName, email, password } = data;
-    signUp({ fullName, email, password }, { onSettled: reset });
+    signUp({ fullName, email, password }, { onSuccess: () => reset() });
   };
   return (
     <Form onSubmit={handleSubmit(submitHandler)}>
